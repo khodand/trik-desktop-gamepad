@@ -1,5 +1,6 @@
 name: travis-action
 env:
+  SCRIPTS_PATH: "./.github/workflows/scripts"
   CONFIG: "release"
   VERA: false
   SUFFIX: "" 
@@ -17,17 +18,17 @@ jobs:
         configs: [release, debug]
 
     runs-on: ${{ matrix.os }}
-    if: ! (runner.os == "macOS" && matrix.configs == debug)
+    if: (!(runner.os == "macOS" && matrix.configs == debug))
     steps:
     - uses: actions/checkout@v2
     - name: Set enviroment
       run: export CONFIG=$matrix.configs
     - name: install
-      run: ./.travis/install.sh
+      run: $SCRIPTS_PATH/install.sh
     - name: script
-      run: ./.travis/script.sh
+      run: $SCRIPTS_PATH/script.sh
     - name: after_script
-      run: ./.travis/after_script.sh
+      run: $SCRIPTS_PATH/after_script.sh
     - name: after_success
       run: if [ "$CONFIG" = "debug" ]; then codecov; fi
       
