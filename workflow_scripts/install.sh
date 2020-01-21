@@ -1,7 +1,8 @@
 #!/bin/bash
 set -euxo pipefail
 
-echo "$1"
+echo "input $1"
+echo "Home $HOME"
 case $1 in
   macOS)
     echo "macOS install.sh"
