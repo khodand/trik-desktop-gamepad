@@ -5,6 +5,7 @@ env:
   VERA: false
   SUFFIX: "" 
   QMAKE_EXTRA: ""
+  OS_NAME: ""
   
 on: [push]
 
@@ -19,13 +20,14 @@ jobs:
           configs: debug
 
     runs-on: ${{ matrix.os }}
+    env:
+      OS_NAME: $runner.os
 
     steps:
     - uses: actions/checkout@v2
     - name: Set enviroment
       run: |
         export CONFIG=$matrix.configs
-        export OS_NAME=$runner.os
         export CELLAR_CACHE_DIR=$([ $runner.os = 'macOS' ] && echo "/usr/local/Cellar" || { mkdir -p .empty/{qt,ccache,python@2,python@3} ; echo .empty ; } )
     - name: install
       run: $SCRIPTS_PATH/install.sh
