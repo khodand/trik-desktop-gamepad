@@ -13,10 +13,10 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        configs: [release]
-        include:
-          - os: ubuntu-latest
-            configs: debug
+        configs: [release, debug]
+        exclude:
+        - os: macos-latest
+          configs: debug
 
     runs-on: ${{ matrix.os }}
 
