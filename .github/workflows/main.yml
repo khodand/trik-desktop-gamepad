@@ -14,21 +14,14 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
+        configs: [release, debug]
 
     runs-on: ${{ matrix.os }}
-
+    if: ! (runner.os == "macOS" && matrix.configs == debug)
     steps:
     - uses: actions/checkout@v2
     - name: Set enviroment
-      env:
-        #CONFIG: "release"
-        VERA: false
-      run: |
-        echo $CONFIG
-        echo ${{ env.CONFIG }}
-        export CONFIG=debug
-        echo $CONFIG
-        echo ${{ env.CONFIG }}
+      run: export CONFIG=$matrix.configs
     - name: install
       run: ./.travis/install.sh
     - name: script
