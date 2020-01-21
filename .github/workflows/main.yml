@@ -18,8 +18,8 @@ jobs:
         configs: [release, debug]
 
     runs-on: ${{ matrix.os }}
-    if: $runner.os == "macOS" && $matrix.configs == debug == 0
     steps:
+    - if: runner.os == "macOS" && matrix.configs == debug == 0
     - uses: actions/checkout@v2
     - name: Set enviroment
       run: export CONFIG=$matrix.configs
