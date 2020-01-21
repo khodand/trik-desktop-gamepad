@@ -32,7 +32,7 @@ jobs:
       CONFIG: ${{ matrix.configs }}
       VERA: ${{ matrix.vera == true }}
       SUFFIX: ${{ matrix.suffix }} 
-      QMAKE_EXTRA: ${{ qmake-extra }}
+      QMAKE_EXTRA: ${{ matrix.qmake-extra }}
 
     steps:
     - uses: actions/checkout@v2
