@@ -20,7 +20,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       IS_MACOS: contains(matrix.os, "macos")
-      if: (IS_MACOS && matrix.configs == debug) == 0
+
+    if: (IS_MACOS && matrix.configs == debug) == 0
     steps:
     - uses: actions/checkout@v2
     - name: Set enviroment
