@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euxo pipefail
 
-echo "${{ VERA }}"
-case $OS_NAME in
+echo "$1"
+case $1 in
   macOS)
     echo "macOS install.sh"
     REQURED_PACKAGES="qt ccache python@2 python@3"
