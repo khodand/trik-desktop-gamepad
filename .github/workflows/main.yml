@@ -18,7 +18,7 @@ jobs:
         configs: [release, debug]
 
     runs-on: ${{ matrix.os }}
-    if: (!(runner.os == "macOS" && matrix.configs == debug))
+    if: (runner.os == "macOS" && matrix.configs == debug) == 0
     steps:
     - uses: actions/checkout@v2
     - name: Set enviroment
@@ -32,4 +32,3 @@ jobs:
     - name: after_success
       run: if [ "$CONFIG" = "debug" ]; then codecov; fi
       
-    
