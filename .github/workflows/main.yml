@@ -5,7 +5,6 @@ env:
   VERA: false
   SUFFIX: "" 
   QMAKE_EXTRA: ""
-  OS_NAME: ""
   
 on: [push]
 
