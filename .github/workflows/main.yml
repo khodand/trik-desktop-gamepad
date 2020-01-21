@@ -1,6 +1,6 @@
 name: travis-action
 env:
-  SCRIPTS_PATH: "./.github/workflows/scripts"
+  SCRIPTS_PATH: "./workflow_scripts"
   CONFIG: "release"
   VERA: false
   SUFFIX: "" 
