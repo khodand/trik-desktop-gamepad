@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euxo pipefail
-case $OS_NAME in
+case $1 in
   macOS)
     ;;
   Linux)

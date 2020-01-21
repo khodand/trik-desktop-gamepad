@@ -1,6 +1,7 @@
 #!/bin/bash
 set -euxo pipefail
-case $OS_NAME in
+
+case $1 in
   macOS)
      export PATH="/usr/local/opt/qt/bin:$PATH"
      export PATH="/usr/local/opt/ccache/libexec:$PATH"
@@ -13,7 +14,7 @@ case $OS_NAME in
 esac
 
 if [ "$VERA" = "true" ]; then $EXECUTOR ./runVera++.sh ; fi
-$EXECUTOR bash -c "export CCACHE_DIR=$HOME/.ccache/$TRAVIS_OS_NAME-$CONFIG \
+$EXECUTOR bash -c "export CCACHE_DIR=$HOME/.ccache/$1-$CONFIG \
 && export CCACHE_CPP2=yes \
 && export CCACHE_SLOPPINESS=time_macros \
 && which g++ \
