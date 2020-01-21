@@ -10,16 +10,33 @@ env:
 on: [push]
 
 jobs:
-  Linux:
-    
-    runs-on: [ubuntu-latest]
+  Build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        node: [6, 8, 10]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Set-CELLAR_CACHE_DIR
+    - uses: actions/checkout@v2
+    - name: Set enviroment
+      env:
+        CONFIG: "release"
+        VERA: false
       run: |
-        export CELLAR_CACHE_DIR=$([ '${{ runner.os }}' = 'osx' ] && echo "/usr/local/Cellar" || { mkdir -p .empty/{qt,ccache,python@2,python@3} ; echo .empty ; } )
-        echo "${{ env.CELLAR_CACHE_DIR }}"
-        echo "$CELLAR_CACHE_DIR"
+        echo $CONFIG
+        echo ${{ env.CONFIG }}
+        export CONFIG=debug
+        echo $CONFIG
+        echo ${{ env.CONFIG }}
+    - name: install
+      run: ./.travis/install.sh
+    - name: script
+      run: ./.travis/script.sh
+    - name: after_script
+      run: ./.travis/after_script.sh
+    - name: after_success
+      run: if [ "$CONFIG" = "debug" ]; then codecov; fi
       
     
