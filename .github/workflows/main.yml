@@ -17,10 +17,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Set CELLAR_CACHE_DIR
-       ${{env.CELLAR_CACHE_DIR}}=".empty"
-      if: runner.os == 'macOS'
-      run: |
-        ${{env.CELLAR_CACHE_DIR}}="/usr/local/Cellar"
-        echo ${{env.CELLAR_CACHE_DIR}}
+      run: [ ${{ runner.os }} = 'osx' ] && ${{ env.CELLAR_CACHE_DIR }}="/usr/local/Cellar" || { mkdir -p .empty/{qt,ccache,python@2,python@3} ; ${{ env.CELLAR_CACHE_DIR }}=".empty" ; }
       
     
