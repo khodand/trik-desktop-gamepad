@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euxo pipefail
 
-echo "$VERA"
+echo "$OS_NAME"
 case $OS_NAME in
   macOS)
     echo "macOS install.sh"
