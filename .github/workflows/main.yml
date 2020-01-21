@@ -20,12 +20,14 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       CONFIG: ${{ matrix.configs }}
-      CELLAR_CACHE_DIR: ${{ $([ $matrix.os = 'macos-latest' ] && echo "/usr/local/Cellar" || { mkdir -p .empty/{qt,ccache,python@2,python@3} ; echo .empty ; } ) }}
+      CELLAR_CACHE_DIR: ${{ [ $matrix.os = 'macos-latest' ] && echo "/usr/local/Cellar" || { mkdir -p .empty/{qt,ccache,python@2,python@3} ; echo .empty ; } }}
 
     steps:
     - uses: actions/checkout@v2
     - name: Set enviroment
       run: |
+        echo $CONFIG
+        echo $CELLAR_CACHE_DIR
         export CELLAR_CACHE_DIR=$([ $runner.os = 'macOS' ] && echo "/usr/local/Cellar" || { mkdir -p .empty/{qt,ccache,python@2,python@3} ; echo .empty ; } )
     - name: install
       run: $SCRIPTS_PATH/install.sh ${{ runner.os }}
