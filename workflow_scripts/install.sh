@@ -1,5 +1,8 @@
 #!/bin/bash
 set -euxo pipefail
+echo $runner.os
+echo ${{ runner.os }}
+echo "${{ runner.os }}"
 case $OS_NAME in
   macOS)
     echo "macOS install.sh"
