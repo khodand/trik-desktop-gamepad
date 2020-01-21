@@ -25,7 +25,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Set enviroment
       env:
-        OS_NAME: $runner.os
+        OS_NAME: ${{ runner.os }}
       run: |
         export CONFIG=$matrix.configs
         export CELLAR_CACHE_DIR=$([ $runner.os = 'macOS' ] && echo "/usr/local/Cellar" || { mkdir -p .empty/{qt,ccache,python@2,python@3} ; echo .empty ; } )
