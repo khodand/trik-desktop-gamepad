@@ -1,0 +1,52 @@
+name: travis-action
+env:
+  SCRIPTS_PATH: "./workflow_scripts"
+  
+on: [push]
+
+jobs:
+  Build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        configs: [release, debug]
+        exclude:
+        - os: macos-latest
+          configs: debug
+        include:
+        - os: ubuntu-latest
+          configs: debug
+          vera: true
+          suffix: -d
+        - os: macos-latest
+          configs: release
+          qmake-extra: CONFIG+=no-sanitizers
+
+    runs-on: ${{ matrix.os }}
+    env:
+      CONFIG: ${{ matrix.configs }}
+      VERA: ${{ matrix.vera == true }}
+      SUFFIX: ${{ matrix.suffix }} 
+      QMAKE_EXTRA: ${{ matrix.qmake-extra }}
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Enviroment
+      run: |
+        echo "CONFIG = $CONFIG"
+        echo "VERA = $VERA"
+        echo "SUFFIX = $SUFFIX"
+        echo "QMAKE_EXTRA = $QMAKE_EXTRA"
+    - name: install
+      run: |
+        export CELLAR_CACHE_DIR=$([ ${{ runner.os }} = 'macOS' ] && echo "/usr/local/Cellar" || { mkdir -p .empty/{qt,ccache,python@2,python@3} ; echo .empty ; })
+        echo "CELLAR_CACHE_DIR = $CELLAR_CACHE_DIR"
+        $SCRIPTS_PATH/install.sh ${{ runner.os }}
+    - name: script
+      run: $SCRIPTS_PATH/script.sh ${{ runner.os }}
+    - name: after_script
+      run: $SCRIPTS_PATH/after_script.sh ${{ runner.os }}
+    - name: after_success
+      run: if [ "$CONFIG" = "debug" ]; then codecov; fi
+      
